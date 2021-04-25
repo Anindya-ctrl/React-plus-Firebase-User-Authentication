@@ -22,7 +22,7 @@ function Login() {
             history.push('/');
         } catch(err) {
             console.error(err);
-            setError(err.message);
+            setError(err.message || 'An error occurred.');
         }
 
         setLoading(false);

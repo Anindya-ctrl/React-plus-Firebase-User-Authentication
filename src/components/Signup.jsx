@@ -27,7 +27,7 @@ function Signup() {
             history.push('/login');
         } catch(err) {
             console.error(err);
-            setError(err.message);
+            setError(err.message || 'An error occurred.');
         }
 
         setLoading(false);

@@ -20,7 +20,7 @@ function ResetPassword() {
             setSuccessMessage('Please check your email for further instructions.');
         } catch(err) {
             console.error(err);
-            setError(err.message);
+            setError(err.message || 'An error occurred.');
         }
 
         setLoading('');

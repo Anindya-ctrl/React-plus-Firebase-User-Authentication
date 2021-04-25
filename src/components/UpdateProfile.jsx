@@ -35,7 +35,7 @@ function UpdateProfile() {
             setMessage('Your profile has been updated successfully.');
         }).catch(err => {
             console.error(err);
-            setError(err.message || 'An Error Occurred');
+            setError(err.message || 'An error occurred.');
         }).finally(() => setLoading(false));
     }
 

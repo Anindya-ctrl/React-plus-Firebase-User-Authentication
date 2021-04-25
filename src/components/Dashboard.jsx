@@ -15,7 +15,7 @@ function Dashboard() {
             history.push('/login');
         } catch(err) {
             console.error(err);
-            setError(err.message || 'An Error Occurred');
+            setError(err.message || 'An error occurred.');
         }
     }
 
