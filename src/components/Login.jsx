@@ -25,7 +25,7 @@ function Login() {
             setError(err.message);
         }
 
-        setLoading('');
+        setLoading(false);
     }
 
     return (

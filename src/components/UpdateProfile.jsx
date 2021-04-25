@@ -2,16 +2,15 @@ import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Form, Button, Alert } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
-import { useHistory } from 'react-router-dom';
 
-function Signup() {
+function UpdateProfile() {
     const emailRef = useRef();
     const passwordRef = useRef();
     const confirmPasswordRef = useRef();
     const [ error, setError ] = useState(() => '');
     const [ loading, setLoading ] = useState(() => false);
-    const { signup } = useAuth();
-    const history = useHistory();
+    const [ message, setMessage ] = useState(() => '');
+    const { currentUser,updateEmail, updatePassword } = useAuth();
 
     const handleSubmit = async event => {
         event.preventDefault();
@@ -20,25 +19,33 @@ function Signup() {
             return setError('Make sure both passwords match');
         }
 
-        try {
-            setError('');
-            setLoading(true);
-            await signup(emailRef.current.value, passwordRef.current.value);
-            history.push('/login');
-        } catch(err) {
-            console.error(err);
-            setError(err.message);
-        }
+        const promises = [];
 
-        setLoading(false);
+        if(currentUser.email !== emailRef.current.value) {
+            promises.push(updateEmail(emailRef.current.value));
+        }
+        if(passwordRef.current.value) {
+            promises.push(updatePassword(passwordRef.current.value));
+        }
+        
+        setError('');
+        setLoading(true);
+        
+        Promise.all(promises).then(() => {
+            setMessage('Your profile has been updated successfully.');
+        }).catch(err => {
+            console.error(err);
+            setError(err.message || 'An Error Occurred');
+        }).finally(() => setLoading(false));
     }
 
     return (
         <>
             <Card>
                 <Card.Body>
-                    <h2 className="text-center mb-4">Sign Up</h2>
+                    <h2 className="text-center mb-4">Update Profile</h2>
                     { error && <Alert variant="danger">{ error }</Alert> }
+                    { message && <Alert variant="success">{ message }</Alert> }
 
                     <Form onSubmit={ handleSubmit }>
                         <Form.Group id="email">
@@ -46,6 +53,7 @@ function Signup() {
                             <Form.Control
                                 type="email"
                                 ref={ emailRef }
+                                defaultValue={ currentUser.email }
                                 required
                             />
                         </Form.Group>
@@ -54,7 +62,7 @@ function Signup() {
                             <Form.Control
                                 type="password"
                                 ref={ passwordRef }
-                                required
+                                placeholder="Leave empty to keep the same"
                             />
                         </Form.Group>
                         <Form.Group id="confirm-password">
@@ -62,7 +70,7 @@ function Signup() {
                             <Form.Control
                                 type="password"
                                 ref={ confirmPasswordRef }
-                                required
+                                placeholder="Leave empty to keep the same"
                             />
                         </Form.Group>
 
@@ -70,16 +78,20 @@ function Signup() {
                             type="submit"
                             className="w-100"
                             disabled={ loading }    
-                        >Sign Up</Button>
+                        >Update</Button>
                     </Form>
+
+                    <div className="w-100 text-center mt-3">
+                        <Link to="/">cancel</Link>
+                    </div>
                 </Card.Body>
             </Card>
 
             <div className="w-100 text-center mt-2">
-                Already have an account? <Link to="/login">Log In</Link>
+                <Link to="/login">Log In</Link>
             </div>
         </>
     );
 }
 
-export default Signup;
+export default UpdateProfile;
