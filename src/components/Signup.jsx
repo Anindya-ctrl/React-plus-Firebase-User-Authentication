@@ -1,18 +1,41 @@
-import React, { useRef } from 'react';
-import { Card, Form, Button } from 'react-bootstrap';
+import React, { useRef, useState } from 'react';
+import { Card, Form, Button, Alert } from 'react-bootstrap';
+import { useAuth } from '../contexts/AuthContext';
 
 function Signup() {
     const emailRef = useRef();
     const passwordRef = useRef();
     const confirmPasswordRef = useRef();
+    const [ error, setError ] = useState(() => '');
+    const { currentUser, signup } = useAuth();
+
+    const handleSubmit = async event => {
+        event.preventDefault();
+
+        if(passwordRef.current.value !== confirmPasswordRef.current.value) {
+            return setError('Make sure both passwords match');
+        }
+
+        try {
+            setError('');
+            await signup(emailRef.current.value, passwordRef.current.value);
+        } catch(err) {
+            console.error(err);
+            setError(err.message);
+        }
+
+        setError('');
+    }
 
     return (
         <>
             <Card>
                 <Card.Body>
                     <h2 className="text-center mb-4">Sign Up</h2>
+                    { error && <Alert variant="danger">{ error }</Alert> }
+                    { /* TEST */ currentUser && console.log(currentUser) }
 
-                    <Form>
+                    <Form onSubmit={ handleSubmit }>
                         <Form.Group id="email">
                             <Form.Label>Email</Form.Label>
                             <Form.Control
