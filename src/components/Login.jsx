@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, Form, Button, Alert } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
 import { useHistory } from 'react-router-dom';
@@ -58,11 +59,15 @@ function Login() {
                             disabled={ loading }    
                         >Log In</Button>
                     </Form>
+
+                    <div className="w-100 text-center mt-3">
+                        <Link to="forgot-password">forgot password?</Link>
+                    </div>
                 </Card.Body>
             </Card>
 
             <div className="w-100 text-center mt-2">
-                Don't have an account? Sign Up
+                Don't have an account? <Link to="/signup">Sign Up</Link>
             </div>
         </>
     );

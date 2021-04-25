@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Card, Button, Alert } from 'react-bootstrap';
 
@@ -26,7 +26,9 @@ function Dashboard() {
                     <h2 className="text-center mb-4">Welcome to the Dashboard!</h2>
                     { error && <Alert variant="danger">{ error }</Alert> }
                     Email: <b>{ currentUser.email }</b>
-                    <Button type="submit" className="w-100 mt-4">Update Profile</Button>
+                    <Link to="update-profile">
+                        <Button type="submit" className="w-100 mt-4">Update Profile</Button>
+                    </Link>
                 </Card.Body>
             </Card>
             

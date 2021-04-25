@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, Form, Button, Alert } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
+import { useHistory } from 'react-router-dom';
 
 function Signup() {
     const emailRef = useRef();
@@ -8,7 +10,8 @@ function Signup() {
     const confirmPasswordRef = useRef();
     const [ error, setError ] = useState(() => '');
     const [ loading, setLoading ] = useState(() => false);
-    const { currentUser, signup } = useAuth();
+    const { signup } = useAuth();
+    const history = useHistory();
 
     const handleSubmit = async event => {
         event.preventDefault();
@@ -21,6 +24,7 @@ function Signup() {
             setError('');
             setLoading(true);
             await signup(emailRef.current.value, passwordRef.current.value);
+            history.push('/login');
         } catch(err) {
             console.error(err);
             setError(err.message);
@@ -35,7 +39,6 @@ function Signup() {
                 <Card.Body>
                     <h2 className="text-center mb-4">Sign Up</h2>
                     { error && <Alert variant="danger">{ error }</Alert> }
-                    { /* TEST */ currentUser && console.log(currentUser) }
 
                     <Form onSubmit={ handleSubmit }>
                         <Form.Group id="email">
@@ -73,7 +76,7 @@ function Signup() {
             </Card>
 
             <div className="w-100 text-center mt-2">
-                Already have an account? Log In
+                Already have an account? <Link to="/login">Log In</Link>
             </div>
         </>
     );
