@@ -9,7 +9,7 @@ export const useAuth = () => {
 
 export function AuthProvider({ children }) {
     const [ currentUser, setCurrentUser ] = useState();
-    const [ loading, setLoading ] = useState(true);
+    const [ loading, setLoading ] = useState(() => true);
     
     const signup = (email, password) => {
         return auth.createUserWithEmailAndPassword(email, password);
@@ -21,6 +21,10 @@ export function AuthProvider({ children }) {
 
     const logout = () => {
         return auth.signOut();
+    }
+
+    const resetPassword = email => {
+        return auth.sendPasswordResetEmail(email);
     }
 
     useEffect(() => {
@@ -37,6 +41,7 @@ export function AuthProvider({ children }) {
         signup,
         login,
         logout,
+        resetPassword,
     };
 
     return (
