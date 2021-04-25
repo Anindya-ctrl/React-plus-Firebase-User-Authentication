@@ -1,16 +1,28 @@
 import React, { useRef, useState } from 'react';
 import { Card, Form, Button, Alert } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
+import { useHistory } from 'react-router-dom';
 
 function Login() {
     const emailRef = useRef();
     const passwordRef = useRef();
     const [ error, setError ] = useState(() => '');
     const [ loading, setLoading ] = useState(() => false);
-    const { signup } = useAuth();
+    const { login } = useAuth();
+    const history = useHistory();
 
     const handleSubmit = async event => {
         event.preventDefault();
+
+        try {
+            setError('');
+            setLoading(true);
+            await login(emailRef.current.value, passwordRef.current.value);
+            history.push('/');
+        } catch(err) {
+            console.error(err);
+            setError(err.message);
+        }
 
         setLoading('');
     }
