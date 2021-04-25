@@ -82,7 +82,7 @@ function UpdateProfile() {
                     </Form>
 
                     <div className="w-100 text-center mt-3">
-                        <Link to="/">cancel</Link>
+                        <Link to="/">back to dashboard</Link>
                     </div>
                 </Card.Body>
             </Card>
