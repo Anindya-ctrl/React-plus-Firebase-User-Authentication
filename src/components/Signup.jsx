@@ -7,6 +7,7 @@ function Signup() {
     const passwordRef = useRef();
     const confirmPasswordRef = useRef();
     const [ error, setError ] = useState(() => '');
+    const [ loading, setLoading ] = useState(() => false);
     const { currentUser, signup } = useAuth();
 
     const handleSubmit = async event => {
@@ -18,13 +19,14 @@ function Signup() {
 
         try {
             setError('');
+            setLoading(true);
             await signup(emailRef.current.value, passwordRef.current.value);
         } catch(err) {
             console.error(err);
             setError(err.message);
         }
 
-        setError('');
+        setLoading('');
     }
 
     return (
@@ -61,7 +63,11 @@ function Signup() {
                             />
                         </Form.Group>
 
-                        <Button type="submit" className="w-100">Sign Up</Button>
+                        <Button
+                            type="submit"
+                            className="w-100"
+                            disabled={ loading }    
+                        >Sign Up</Button>
                     </Form>
                 </Card.Body>
             </Card>
