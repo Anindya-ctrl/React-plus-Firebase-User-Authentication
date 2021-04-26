@@ -86,10 +86,6 @@ function UpdateProfile() {
                     </div>
                 </Card.Body>
             </Card>
-
-            <div className="w-100 text-center mt-2">
-                <Link to="/login">Log In</Link>
-            </div>
         </>
     );
 }
