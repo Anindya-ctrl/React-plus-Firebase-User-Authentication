@@ -1,3 +1,8 @@
+# React plus Firebase User Authentication
+
+An user authentication app with **sign up**, **log in** and **password reset** functionalities. **Updating email address and password** is also possible. See the app in action [here](https://user-auth-production-e5c9a.web.app/).
+
+---
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
